@@ -101,10 +101,10 @@
     .nav-links a:hover,.nav-links a.active{color:var(--text)}
     .nav-links a:hover::after,.nav-links a.active::after{width:100%}
 
-    /* Theme toggle */
-    .theme-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1.5px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:border-color .3s,color .3s,background .35s}
-    .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
-    .theme-btn svg{width:16px;height:16px;pointer-events:none}
+    /* Theme toggle — circular */
+    .theme-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);background:transparent;color:var(--text);cursor:pointer;transition:border-color .3s,color .3s,background .3s,transform .4s}
+    .theme-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);transform:rotate(25deg)}
+    .theme-btn svg{width:15px;height:15px;pointer-events:none}
     .i-moon{display:block}.i-sun{display:none}
     [data-theme="dark"] .i-moon{display:none}[data-theme="dark"] .i-sun{display:block}
 
@@ -140,18 +140,34 @@
        1. HERO
     ============================================= */
     #hero{min-height:100vh;padding-top:var(--nav-h);display:flex;align-items:center;position:relative;overflow:hidden;background:var(--bg)}
-    .hero-stripe{position:absolute;top:0;right:0;width:36%;height:100%;background:var(--bg-alt);clip-path:polygon(20% 0,100% 0,100% 100%,0% 100%);pointer-events:none;transition:background .35s}
-    .hero-dots{position:absolute;bottom:56px;right:clamp(40px,5vw,110px);display:grid;grid-template-columns:repeat(5,8px);grid-template-rows:repeat(5,8px);gap:9px;pointer-events:none;opacity:.3}
-    .hero-dots span{display:block;width:4px;height:4px;border-radius:50%;background:var(--accent)}
-    .hero-content{position:relative;z-index:2;max-width:840px;padding:60px 0}
-    .hero-name{font-family:var(--font-d);font-size:clamp(64px,9vw,130px);line-height:.9;letter-spacing:.01em;color:var(--text);margin-bottom:2px}
-    .hero-name-outline{font-family:var(--font-d);font-size:clamp(64px,9vw,130px);line-height:.9;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px var(--accent);margin-bottom:28px}
-    .hero-role-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:28px;min-height:48px}
-    .hero-role-prefix{font-size:clamp(15px,1.9vw,21px);font-weight:300;color:var(--text-faint)}
-    .hero-role-typed{font-size:clamp(15px,1.9vw,21px);font-weight:500;color:var(--accent)}
+
+    /* Generative SVG canvas layer */
+    #hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+    /* Corner bracket accents */
+    .hero-bracket-tl{position:absolute;top:calc(var(--nav-h) + 28px);left:var(--g);width:28px;height:28px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);pointer-events:none;opacity:.55;z-index:1}
+    .hero-bracket-br{position:absolute;bottom:36px;right:var(--g);width:28px;height:28px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);pointer-events:none;opacity:.55;z-index:1}
+
+    /* Vertical folio tag */
+    .hero-folio-tag{position:absolute;top:50%;right:calc(var(--g) - 10px);transform:translateY(-50%);font-family:var(--font-d);font-size:.65rem;letter-spacing:.26em;color:var(--text-faint);writing-mode:vertical-rl;opacity:.4;pointer-events:none;z-index:1}
+
+    .hero-content{position:relative;z-index:2;max-width:800px;padding:56px 0}
+
+    /* SANKET — big, solid */
+    .hero-name{font-family:var(--font-d);font-size:clamp(68px,10vw,148px);line-height:.88;letter-spacing:.01em;color:var(--text);margin-bottom:0;line-height:.9}
+
+    /* BHOSALE — refined spaced subtitle row */
+    .hero-last{display:flex;align-items:center;gap:14px;margin-top:8px;margin-bottom:30px}
+    .hero-last-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+    .hero-last-name{font-family:var(--font-b);font-size:clamp(12px,1.5vw,15px);font-weight:400;letter-spacing:.32em;text-transform:uppercase;color:var(--text-faint)}
+    .hero-last-rule{height:1px;width:clamp(40px,6vw,100px);background:var(--border)}
+
+    .hero-role-wrap{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:24px;min-height:44px}
+    .hero-role-prefix{font-size:clamp(14px,1.8vw,20px);font-weight:300;color:var(--text-faint)}
+    .hero-role-typed{font-size:clamp(14px,1.8vw,20px);font-weight:500;color:var(--accent)}
     .cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);margin-left:3px;vertical-align:middle;animation:blink .8s step-end infinite}
     @keyframes blink{50%{opacity:0}}
-    .hero-tagline{font-size:clamp(13px,1.3vw,15.5px);font-weight:300;color:var(--text-muted);line-height:1.9;max-width:640px;margin-bottom:44px}
+    .hero-tagline{font-size:clamp(13px,1.25vw,15px);font-weight:300;color:var(--text-muted);line-height:1.95;max-width:600px;margin-bottom:44px}
     .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
 
     /* =============================================
@@ -295,11 +311,71 @@
     .footer-credit{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28)}
 
     /* =============================================
-       RESPONSIVE
+       RESPONSIVE — COMPREHENSIVE MOBILE FIRST
     ============================================= */
-    @media(max-width:1000px){.proj-top{grid-template-columns:1fr}.proj-bottom{grid-template-columns:1fr 1fr}.blogs-grid{grid-template-columns:1fr}}
-    @media(max-width:900px){.about-grid{grid-template-columns:1fr}.about-portrait{max-width:340px}.exp-grid{grid-template-columns:1fr}}
-    @media(max-width:680px){.nav-links{display:none}.nav-toggle{display:flex}.nav-drawer{display:block}.proj-bottom{grid-template-columns:1fr}.hero-cta{flex-direction:column;align-items:flex-start}.contact-links{flex-direction:column;gap:18px}.contact-div{display:none}.hero-stripe{display:none}}
+    /* Large tablets */
+    @media(max-width:1100px){
+      .proj-bottom{grid-template-columns:1fr 1fr}
+      .sk-groups{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:1000px){
+      .proj-top{grid-template-columns:1fr}
+      .blogs-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:900px){
+      .about-grid{grid-template-columns:1fr}
+      .about-portrait{max-width:300px}
+      .exp-grid{grid-template-columns:1fr}
+      .sk-groups{grid-template-columns:1fr 1fr}
+    }
+    /* Tablet */
+    @media(max-width:768px){
+      :root{--pad:clamp(56px,8vw,96px)}
+      .nav-links{display:none}
+      .nav-toggle{display:flex}
+      .nav-drawer{display:block}
+      .hero-folio-tag{display:none}
+      .proj-top{grid-template-columns:1fr}
+      .proj-bottom{grid-template-columns:1fr 1fr}
+      .blogs-grid{grid-template-columns:1fr}
+      .hero-tagline{max-width:100%}
+      .about-stats{gap:22px}
+      .contact-links{gap:20px}
+      .exp-heading{font-size:clamp(36px,7vw,60px)}
+    }
+    /* Mobile */
+    @media(max-width:600px){
+      :root{--pad:56px;--g:18px}
+      .hero-content{padding:36px 0}
+      .hero-cta{flex-direction:column;align-items:stretch}
+      .hero-cta .btn{width:100%;justify-content:center;text-align:center}
+      .hero-bracket-tl,.hero-bracket-br{display:none}
+      .proj-bottom{grid-template-columns:1fr}
+      .sk-groups{grid-template-columns:1fr}
+      .cert-list{flex-direction:column}
+      .cert-badge{width:100%;justify-content:flex-start}
+      .about-stats{flex-wrap:wrap;gap:18px}
+      .about-portrait{max-width:240px}
+      .contact-links{flex-direction:column;align-items:center;gap:14px}
+      .contact-div{display:none}
+      .blogs-grid{grid-template-columns:1fr}
+      .blog-meta{flex-direction:column;align-items:flex-start;gap:14px}
+      .exp-grid{grid-template-columns:1fr}
+      .nav-right{gap:14px}
+      footer{flex-direction:column;align-items:flex-start;gap:8px}
+      .proj-heading,.blogs-heading,.contact-heading{font-size:clamp(38px,10vw,60px)}
+      .exp-heading{font-size:clamp(30px,8vw,50px)}
+      .sk-heading{font-size:clamp(30px,8vw,48px)}
+      .about-heading{font-size:clamp(26px,7vw,38px)}
+      .hero-last-rule{display:none}
+    }
+    /* Very small */
+    @media(max-width:380px){
+      :root{--g:14px}
+      .hero-name{font-size:clamp(52px,15vw,72px)}
+      .btn{padding:12px 20px;font-size:.76rem}
+      .nav-right{gap:10px}
+    }
 
     /* =============================================
        PAGE LOADER
@@ -365,28 +441,39 @@
 
   <!-- 1. HERO -->
   <section id="hero">
-    <div class="hero-stripe" aria-hidden="true"></div>
-    <div class="hero-dots" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
+    <!-- Generative geometric SVG background -->
+    <svg id="hero-canvas" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- Corner bracket accents -->
+    <div class="hero-bracket-tl" aria-hidden="true"></div>
+    <div class="hero-bracket-br" aria-hidden="true"></div>
+
+    <!-- Vertical folio tag -->
+    <div class="hero-folio-tag" aria-hidden="true">PORTFOLIO&nbsp;·&nbsp;2026</div>
+
     <div class="container">
       <div class="hero-content">
+        <!-- First name: large, solid, dominant -->
         <h1 class="hero-name reveal">SANKET</h1>
-        <div class="hero-name-outline reveal d1">BHOSALE</div>
+
+        <!-- Last name: minimal refined subtitle -->
+        <div class="hero-last reveal d1" aria-label="Bhosale">
+          <div class="hero-last-dot"></div>
+          <span class="hero-last-name">Bhosale</span>
+          <div class="hero-last-rule"></div>
+        </div>
+
         <div class="hero-role-wrap reveal d2">
           <span class="hero-role-prefix">I am an aspiring&nbsp;</span>
           <span class="hero-role-typed" id="typedRole" aria-live="polite"><span class="cursor"></span></span>
         </div>
+
         <p class="hero-tagline reveal d3">
           Results-driven professional with 3+ years in software engineering, making a deliberate move into Data Analytics with the technical skills and practical experience to hit the ground running.
         </p>
+
         <div class="hero-cta reveal d4">
-          <!-- Update href to your actual PDF resume URL when ready -->
-          <a href="https://drive.google.com/file/d/1rNwRyTWmQoHdkIK82mKQCcifQOmLBtZ3/view?usp=drive_link" class="btn btn-primary" download="Sanket_Bhosale_Resume.pdf">Download Resume &nbsp;↓</a>
+          <a href="https://drive.google.com/file/d/1rNwRyTWmQoHdkIK82mKQCcifQOmLBtZ3/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener">Download Resume &nbsp;↓</a>
           <a href="#contact" class="btn btn-outline">Get in Touch &nbsp;→</a>
         </div>
       </div>
@@ -400,11 +487,18 @@
       <div class="about-grid">
         <div class="about-portrait reveal">
           <div class="about-portrait-box">
-            <svg viewBox="0 0 400 540" xmlns="./Profile.png" style="width:100%;height:100%;position:absolute;inset:0">
-              <rect width="400" height="540" fill="var(--bg-alt)"/>
-              <circle cx="200" cy="190" r="80" fill="var(--border)"/>
-              <ellipse cx="200" cy="460" rx="140" ry="110" fill="var(--border)"/>
-            </svg>
+            <!-- Fix 5: Profile.png as a proper img tag, same folder as index.html in repo -->
+            <img
+              src="Profile.png"
+              alt="Sanket Bhosale"
+              style="width:100%;height:100%;object-fit:cover;object-position:center top;position:absolute;inset:0;display:block;"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <!-- Fallback placeholder shown if image fails to load -->
+            <div style="display:none;width:100%;height:100%;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:var(--bg-alt);">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="24" r="14" stroke="var(--border)" stroke-width="2"/><path d="M8 56c0-13.3 10.7-24 24-24s24 10.7 24 24" stroke="var(--border)" stroke-width="2" stroke-linecap="round"/></svg>
+              <span style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)">Profile Photo</span>
+            </div>
           </div>
           <div class="about-portrait-label">Mumbai, India</div>
         </div>
@@ -510,6 +604,10 @@
           <a href="https://www.hackerrank.com/certificates/f5c45f717ce7" class="cert-badge" target="_blank" rel="noopener">HackerRank SQL (Basic)</a>
           <a href="https://drive.google.com/file/d/1xVe3IvmaIyfbbHhKnRsUErHqNvbflHII/view?usp=sharing" class="cert-badge" target="_blank" rel="noopener">Databricks Fundamental Accreditation</a>
           <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/d208bf55b7fb521ad2334f64605ba258b72e172c" class="cert-badge" target="_blank" rel="noopener">Alteryx Designer Core Fundamentals</a>
+          <!-- Forage Virtual Job Simulations — replace # with your Forage certificate URLs -->
+          <a href="#" class="cert-badge" target="_blank" rel="noopener">Deloitte Australia — Data Analytics (Forage)</a>
+          <a href="#" class="cert-badge" target="_blank" rel="noopener">TATA — Data Visualization (Forage)</a>
+          <a href="#" class="cert-badge" target="_blank" rel="noopener">TATA — GenAI Powered Data Analytics (Forage)</a>
         </div>
       </div>
     </div>
@@ -652,6 +750,18 @@
             </div>
             <div class="tl-item reveal d2">
               <div class="tl-dot"></div>
+              <div class="tl-period">June – July 2025</div>
+              <div class="tl-role">Virtual Job Simulations</div>
+              <div class="tl-org">Forage · Remote</div>
+              <ul class="tl-desc">
+                <li><strong>Deloitte Australia</strong> — Data Analytics &nbsp;<span style="color:var(--text-faint);font-size:.75em">Jun 30, 2025</span></li>
+                <li><strong>TATA</strong> — Data Visualization: Empowering Business with Effective Insights &nbsp;<span style="color:var(--text-faint);font-size:.75em">Jul 10, 2025</span></li>
+                <li><strong>TATA</strong> — GenAI Powered Data Analytics &nbsp;<span style="color:var(--text-faint);font-size:.75em">Jul 20, 2025</span></li>
+              </ul>
+            </div>
+
+            <div class="tl-item reveal d3">
+              <div class="tl-dot"></div>
               <div class="tl-period">2021 – 2025</div>
               <div class="tl-role">Software Engineer — Content &amp; Testing</div>
               <div class="tl-org">Acute Learning (India)</div>
@@ -793,6 +903,72 @@ document.querySelectorAll('.drawer-link').forEach(a => {
     toggle.setAttribute('aria-expanded', false); drawer.setAttribute('aria-hidden', true);
   });
 });
+
+/* =============================================
+   HERO CANVAS — Minimal geometric background
+   Draws a fine grid + ghost circles + accent
+   marks. Redraws on resize & theme change.
+============================================= */
+function drawHeroCanvas() {
+  const svg = document.getElementById('hero-canvas');
+  if (!svg) return;
+  svg.innerHTML = '';
+  const W = svg.clientWidth  || window.innerWidth;
+  const H = svg.clientHeight || window.innerHeight;
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const ns   = 'http://www.w3.org/2000/svg';
+  const lineC   = dark ? 'rgba(255,255,255,0.038)' : 'rgba(0,0,0,0.038)';
+  const dotC    = dark ? 'rgba(255,255,255,0.10)'  : 'rgba(0,0,0,0.07)';
+  const accent  = '232,74,47';
+
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k,v));
+    return e;
+  }
+
+  /* ── Large ghost circle (right side) ── */
+  const R = Math.min(W, H) * 0.48;
+  svg.appendChild(el('circle',{cx:W*.80,cy:H*.30,r:R,
+    fill:'none',stroke:dark?'rgba(255,255,255,0.03)':'rgba(0,0,0,0.03)','stroke-width':1}));
+  svg.appendChild(el('circle',{cx:W*.80,cy:H*.30,r:R*.65,
+    fill:'none',stroke:dark?'rgba(255,255,255,0.02)':'rgba(0,0,0,0.02)','stroke-width':1}));
+
+  /* ── Fine grid — right 55% of canvas only ── */
+  const step = 44;
+  const startX = W * 0.44;
+  for(let y = step; y < H; y += step)
+    svg.appendChild(el('line',{x1:startX,y1:y,x2:W,y2:y,stroke:lineC,'stroke-width':1}));
+  for(let x = startX; x < W; x += step)
+    svg.appendChild(el('line',{x1:x,y1:0,x2:x,y2:H,stroke:lineC,'stroke-width':1}));
+
+  /* ── Intersection dots (sampled) ── */
+  let seed = 7;
+  function rand(){ seed=(seed*16807)%2147483647; return(seed-1)/2147483646; }
+  for(let x=startX;x<=W;x+=step)
+    for(let y=step;y<=H;y+=step)
+      if(rand()>.72) svg.appendChild(el('circle',{cx:x,cy:y,r:1.6,fill:dotC}));
+
+  /* ── Accent dots (fixed compositional positions) ── */
+  [{x:.70,y:.16,r:3.5,o:.65},{x:.87,y:.40,r:2.2,o:.50},
+   {x:.63,y:.52,r:3.8,o:.42},{x:.92,y:.65,r:1.8,o:.58},
+   {x:.77,y:.76,r:2.8,o:.38},{x:.55,y:.30,r:1.8,o:.52}]
+  .forEach(d=>svg.appendChild(el('circle',{cx:d.x*W,cy:d.y*H,r:d.r,fill:`rgba(${accent},${d.o})`})));
+
+  /* ── Faint diagonal accent line ── */
+  svg.appendChild(el('line',{x1:W*.46,y1:0,x2:W*.67,y2:H,
+    stroke:`rgba(${accent},0.07)`,'stroke-width':1}));
+
+  /* ── Small + cross mark detail ── */
+  const cx=W*.74, cy=H*.11, cs=7;
+  svg.appendChild(el('line',{x1:cx-cs,y1:cy,x2:cx+cs,y2:cy,stroke:`rgba(${accent},.45)`,'stroke-width':1.5}));
+  svg.appendChild(el('line',{x1:cx,y1:cy-cs,x2:cx,y2:cy+cs,stroke:`rgba(${accent},.45)`,'stroke-width':1.5}));
+}
+
+drawHeroCanvas();
+window.addEventListener('resize', drawHeroCanvas);
+// Redraw when theme changes so colors update
+document.getElementById('themeBtn').addEventListener('click', () => setTimeout(drawHeroCanvas, 50));
 </script>
 </body>
 </html>
