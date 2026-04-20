@@ -197,7 +197,7 @@
        3. SKILLS & CERTIFICATIONS
     ============================================= */
     #skills{padding:var(--pad) 0;background:var(--sk-bg);color:var(--sk-text);position:relative;overflow:hidden;transition:background .35s}
-    .sk-bg-text{position:absolute;bottom:-40px;right:-20px;font-family:var(--font-d);font-size:clamp(120px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.05);user-select:none;pointer-events:none;line-height:1}
+    .sk-bg-text{position:absolute;bottom:-40px;right:-20px;font-family:var(--font-d);font-size:clamp(120px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.15);user-select:none;pointer-events:none;line-height:1}
     #skills .slabel{color:var(--accent)}
     #skills .slabel::before{background:var(--accent)}
     .sk-heading{font-family:var(--font-d);font-size:clamp(38px,5vw,68px);letter-spacing:.02em;color:#fff;margin-bottom:60px;line-height:1}
@@ -227,6 +227,7 @@
     .proj-heading{font-family:var(--font-d);font-size:clamp(48px,6vw,88px);letter-spacing:.02em;line-height:.9;color:var(--text)}
     .proj-count{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
     .proj-count span{color:var(--accent);font-weight:700}
+    .proj-bg-text{position:absolute;bottom:-20px;left:-10px;font-family:var(--font-d);font-size:clamp(120px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.06);user-select:none;pointer-events:none;line-height:1;transition:-webkit-text-stroke-color .35s}[data-theme="dark"] .proj-bg-text{-webkit-text-stroke:1px rgba(255,255,255,.12)}
     .proj-top{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
     .proj-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
     .pcard{background:var(--card-bg);border:1px solid var(--border);padding:clamp(26px,3.5vw,42px);position:relative;overflow:hidden;display:flex;flex-direction:column;transition:border-color .4s var(--ease),box-shadow .4s var(--ease),background .35s;cursor:default}
@@ -473,7 +474,7 @@
         </p>
 
         <div class="hero-cta reveal d4">
-          <a href="https://drive.google.com/file/d/1rNwRyTWmQoHdkIK82mKQCcifQOmLBtZ3/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener">Download Resume &nbsp;↓</a>
+          <a href="https://drive.google.com/file/d/1rNwRyTWmQoHdkIK82mKQCcifQOmLBtZ3/view?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener">View Resume &nbsp;↓</a>
           <a href="#contact" class="btn btn-outline">Get in Touch &nbsp;→</a>
         </div>
       </div>
@@ -615,6 +616,7 @@
 
   <!-- 4. PROJECTS -->
   <section id="projects">
+    <div class="proj-bg-text" aria-hidden="true">WORK</div>
     <div class="container">
       <div class="proj-header">
         <div>
@@ -667,6 +669,7 @@
           <a href="https://github.com/Sank02/data-science/blob/main/Data%20Analysis/Amazon%20Fine%20Food%20Reviews%20-%20Sentiment%20Analysis%20-%20TSNE%20Visualization.ipynb" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
         </div>
       </div>
+    </div>
     </div>
   </section>
 
@@ -744,6 +747,7 @@
               <ul class="tl-desc">
                 <li>Built 5+ end-to-end analytics projects across PostgreSQL, Python, Power BI &amp; Tableau</li>
                 <li>Completed certifications in SQL (HackerRank), Databricks &amp; Alteryx</li>
+                <li>Worked on 3+ Virtual Job Simulations on the Forage Website</li>
                 <li>Authored technical blogs on Probability &amp; Statistics and OpenCV</li>
                 <li>Focused on bridging technical EDA with business-metric framing</li>
               </ul>
@@ -872,7 +876,7 @@ const secs = document.querySelectorAll('main section[id]');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 10);
   let cur = '';
-  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 110) cur = s.id; });
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - (window.innerHeight * 0.4)) cur = s.id; });
   navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
 }, { passive: true });
 
