@@ -157,8 +157,8 @@
     .hero-name{font-family:var(--font-d);font-size:clamp(68px,10vw,148px);line-height:.88;letter-spacing:.01em;color:var(--text);margin-bottom:0;line-height:.9}
 
     /* BHOSALE — refined spaced subtitle row */
-    .hero-last{display:flex;align-items:center;gap:14px;margin-top:8px;margin-bottom:30px}
-    .hero-last-dot{display:none}
+    .hero-last{display:flex;align-items:flex-end;gap:0;margin-top:0;margin-bottom:30px}
+    .hero-last-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent);margin-left:14px;margin-bottom:8px;vertical-align:middle;flex-shrink:0}
     .hero-last-name{font-family:var(--font-d);font-size:clamp(68px,10vw,148px);font-weight:400;letter-spacing:.01em;text-transform:uppercase;color:var(--accent)}
     .hero-last-rule{display:none}
 
@@ -459,9 +459,7 @@
 
         <!-- Last name: minimal refined subtitle -->
         <div class="hero-last reveal d1" aria-label="Bhosale">
-          <div class="hero-last-dot"></div>
-          <span class="hero-last-name">Bhosale</span>
-          <div class="hero-last-rule"></div>
+          <span class="hero-last-name">BHOSALE</span><span class="hero-last-dot"></span>
         </div>
 
         <div class="hero-role-wrap reveal d2">
