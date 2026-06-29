@@ -228,7 +228,7 @@
     .proj-count{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
     .proj-count span{color:var(--accent);font-weight:700}
     .proj-bg-text{position:absolute;bottom:-20px;left:-10px;font-family:var(--font-d);font-size:clamp(120px,18vw,280px);color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.06);user-select:none;pointer-events:none;line-height:1;transition:-webkit-text-stroke-color .35s}[data-theme="dark"] .proj-bg-text{-webkit-text-stroke:1px rgba(255,255,255,.12)}
-    .proj-top{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+    .proj-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px}
     .proj-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
     .pcard{background:var(--card-bg);border:1px solid var(--border);padding:clamp(26px,3.5vw,42px);position:relative;overflow:hidden;display:flex;flex-direction:column;transition:border-color .4s var(--ease),box-shadow .4s var(--ease),background .35s;cursor:default}
     .pcard::before{content:'';position:absolute;top:0;left:0;width:0;height:3px;background:var(--accent);transition:width .5s var(--ease)}
@@ -242,6 +242,7 @@
     .tag{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;background:var(--bg-alt);color:var(--text-muted);transition:background .3s,color .3s}
     .pcard:hover .tag{background:var(--accent-dim);color:var(--accent)}
     .pcard-link{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text);transition:color .3s,gap .3s;margin-top:auto}
+    .pcard-links{display:flex;gap:20px;flex-wrap:wrap;margin-top:auto}
     .pcard-link:hover{color:var(--accent);gap:13px}
 
     /* =============================================
@@ -612,65 +613,74 @@
     </div>
   </section>
 
-  <!-- 4. PROJECTS -->
-  <section id="projects">
-    <div class="proj-bg-text" aria-hidden="true">WORK</div>
-    <div class="container">
-      <div class="proj-header">
-        <div>
-          <div class="slabel reveal">Work</div>
-          <h2 class="proj-heading reveal d1">FEATURED<br>PROJECTS</h2>
-        </div>
-        <p class="proj-count reveal d2"><span>05</span> Selected works</p>
-      </div>
+<!-- 4. PROJECTS -->
+<section id="projects">
+<div class="proj-bg-text" aria-hidden="true">WORK</div>
+<div class="container">
+<div class="proj-header">
+<div>
+<div class="slabel reveal">Work</div>
+<h2 class="proj-heading reveal d1">FEATURED<br>PROJECTS</h2>
+</div>
+<p class="proj-count reveal d2"><span>06</span> Selected works</p>
+</div>
 
-      <!-- Top 2 -->
-      <div class="proj-top">
-        <div class="pcard reveal">
-          <div class="pcard-num">01</div>
-          <h3 class="pcard-title">Adventure Works Retail Analytics</h3>
-          <p class="pcard-desc">An end-to-end retail sales analytics project covering the full data analytics pipeline — from raw CSV data to a PostgreSQL star schema, advanced SQL analysis, and interactive Tableau dashboards.</p>
-          <div class="pcard-tags"><span class="tag">PostgreSQL</span><span class="tag">SQL</span><span class="tag">Tableau</span></div>
-          <a href="https://github.com/Sank02/retail-sales-analytics" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
-        </div>
-        <div class="pcard reveal d1">
-          <div class="pcard-num">02</div>
-          <h3 class="pcard-title">Fintech Payment Fraud Intelligence System</h3>
-          <p class="pcard-desc">Fraud detection pipeline with EDA across transaction patterns, business metric framing (false-positive cost, recall-precision trade-offs), and SQL-style analysis to surface actionable risk signals.</p>
-          <div class="pcard-tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Pandas</span><span class="tag">Seaborn</span></div>
-          <a href="https://github.com/Sank02" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
-        </div>
-      </div>
+<!-- Top 3 -->
+<div class="proj-top">
+<div class="pcard reveal">
+<div class="pcard-num">01</div>
+<h3 class="pcard-title">Adventure Works Retail Analytics</h3>
+<p class="pcard-desc">An end-to-end retail sales analytics project covering the full data analytics pipeline — from raw CSV data to a PostgreSQL star schema, advanced SQL analysis, and interactive Tableau dashboards.</p>
+<div class="pcard-tags"><span class="tag">PostgreSQL</span><span class="tag">SQL</span><span class="tag">Tableau</span></div>
+<a href="https://github.com/Sank02/retail-sales-analytics" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
+</div>
+<div class="pcard reveal d1">
+<div class="pcard-num">02</div>
+<h3 class="pcard-title">Fintech Payment Fraud Intelligence System</h3>
+<p class="pcard-desc">Fraud detection pipeline with EDA across transaction patterns, business metric framing (false-positive cost, recall-precision trade-offs), and SQL-style analysis to surface actionable risk signals.</p>
+<div class="pcard-tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Pandas</span><span class="tag">Seaborn</span></div>
+<a href="https://github.com/Sank02" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
+</div>
+<div class="pcard reveal d2">
+<div class="pcard-num">03</div>
+<h3 class="pcard-title">Real-Time Weather Dashboard</h3>
+<p class="pcard-desc">This project showcases a Real-Time Weather Dashboard built using Power BI, which dynamically fetches and visualizes weather data through an external Weather API. The dashboard is designed to be clean, interactive, and informative, allowing users to explore current weather metrics and forecasts across multiple major cities in India.</p>
+<div class="pcard-tags"><span class="tag">MS PowerBI</span><span class="tag">MS Power Query</span><span class="tag">API</span></div>
+<a href="https://github.com/Sank02/Real-Time-Weather-Dashboard" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
+</div>
+</div>
 
-      <!-- Bottom 3 -->
-      <div class="proj-bottom">
-        <div class="pcard reveal">
-          <div class="pcard-num">03</div>
-          <h3 class="pcard-title">Real-Time Weather Dashboard</h3>
-          <p class="pcard-desc">This project showcases a Real-Time Weather Dashboard built using Power BI, which dynamically fetches and visualizes weather data through an external Weather API. The dashboard is designed to be clean, interactive, and informative, allowing users to explore current weather metrics and forecasts across multiple major cities in India.</p>
-          <div class="pcard-tags"><span class="tag">MS PowerBI</span><span class="tag">MS Power Query</span><span class="tag">API</span></div>
-          <a href="https://github.com/Sank02/Real-Time-Weather-Dashboard" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
-        </div>
-        <!-- Projects 4 & 5 — update with your actual project details -->
-        <div class="pcard reveal d1">
-          <div class="pcard-num">04</div>
-          <h3 class="pcard-title">Superstore Sales Analysis</h3>
-          <p class="pcard-desc">This project analyzes sales performance using the Superstore Sales dataset (2015–2018) to identify key trends, profitable segments, customer behavior, and regional performance. A Tableau dashboard was created to visualize insights and help drive data-backed business decisions.</p>
-          <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Tableau</span></div>
-          <a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
-        </div>
-        <div class="pcard reveal d2">
-          <div class="pcard-num">05</div>
-          <h3 class="pcard-title">Customer Sentiment Analysis Amazon Foods</h3>
-          <p class="pcard-desc">Cleaned and normalized 568K+ Amazon product reviews by removing duplicates, null values, and noise(stemming, stop word removal), ensuring 100% data quality for analysis.</p>
-          <div class="pcard-tags"><span class="tag">Python</span><span class="tag">EDA</span><span class="tag">NLP</span></div>
-          <a href="https://github.com/Sank02/data-science/blob/main/Data%20Analysis/Amazon%20Fine%20Food%20Reviews%20-%20Sentiment%20Analysis%20-%20TSNE%20Visualization.ipynb" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
-        </div>
-      </div>
-    </div>
-    </div>
-  </section>
+<!-- Bottom 3 -->
+<div class="proj-bottom">
+<div class="pcard reveal">
+<div class="pcard-num">04</div>
+<h3 class="pcard-title">Superstore Sales Analysis</h3>
+<p class="pcard-desc">This project analyzes sales performance using the Superstore Sales dataset (2015–2018) to identify key trends, profitable segments, customer behavior, and regional performance. A Tableau dashboard was created to visualize insights and help drive data-backed business decisions.</p>
+<div class="pcard-tags"><span class="tag">Python</span><span class="tag">Tableau</span></div>
+<a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
+</div>
+<div class="pcard reveal d1">
+<div class="pcard-num">05</div>
+<h3 class="pcard-title">Customer Sentiment Analysis Amazon Foods</h3>
+<p class="pcard-desc">Cleaned and normalized 568K+ Amazon product reviews by removing duplicates, null values, and noise(stemming, stop word removal), ensuring 100% data quality for analysis.</p>
+<div class="pcard-tags"><span class="tag">Python</span><span class="tag">EDA</span><span class="tag">NLP</span></div>
+<a href="https://github.com/Sank02/data-science/blob/main/Data%20Analysis/Amazon%20Fine%20Food%20Reviews%20-%20Sentiment%20Analysis%20-%20TSNE%20Visualization.ipynb" class="pcard-link" target="_blank" rel="noopener">View on GitHub &nbsp;→</a>
+</div>
+<div class="pcard reveal d2">
+<div class="pcard-num">06</div>
+<h3 class="pcard-title">SupportDesk — Customer Support Management System</h3>
+<p class="pcard-desc">A full-stack ticket management system built end-to-end — FastAPI REST API, PostgreSQL database, and a React + Tailwind dashboard with priority escalation, live search, and internal agent notes. Deployed live on Railway.</p>
+<div class="pcard-tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">PostgreSQL</span><span class="tag">Railway</span></div>
+<div class="pcard-links">
+<a href="https://supportdesk.up.railway.app" class="pcard-link" target="_blank" rel="noopener">Live Demo &nbsp;→</a>
+<a href="https://github.com/Sank02/support_system" class="pcard-link" target="_blank" rel="noopener">GitHub &nbsp;→</a>
+</div>
+</div>
+</div>
 
+</div>
+</section>
+  
   <!-- 5. BLOGS -->
   <section id="blogs">
     <div class="blogs-bg-text" aria-hidden="true">BLOGS</div>
