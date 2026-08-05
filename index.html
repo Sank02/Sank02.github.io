@@ -98,23 +98,6 @@
       opacity: 0.15;
     }
 
-    .scanline {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--cyan);
-      box-shadow: 0 0 15px var(--cyan);
-      z-index: 9998;
-      pointer-events: none;
-      opacity: 0.4;
-      animation: scan 8s linear infinite;
-    }
-    @keyframes scan {
-      0% { transform: translateY(-10px); }
-      100% { transform: translateY(100vh); }
-    }
 
     ::selection{background:var(--cyan);color:#080C14}
     a{color:inherit;text-decoration:none}
@@ -146,12 +129,15 @@
       left: -20px;
       font-family: var(--font-m);
       font-size: clamp(100px, 18vw, 200px);
-      color: rgba(255, 255, 255, 0.04);
+      color: rgba(0, 194, 255, 0.09); /* faint cyan — visible on light bg */
       user-select: none;
       pointer-events: none;
       line-height: 1;
       font-weight: 700;
       z-index: 0;
+    }
+    [data-theme="dark"] .bg-char {
+      color: rgba(255, 255, 255, 0.04); /* white ghost — dark mode unchanged */
     }
 
     /* =============================================
@@ -330,13 +316,14 @@
     /* Vertical Card Style */
     .pcard {
       width: 340px; 
-      height: 480px; 
+      height: 480px;
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 32px; /* Heavy rounded corners per design */
+      border-radius: 32px;
       padding: 36px 32px;
       position: relative;
       z-index: 1;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       transition: all 0.4s var(--ease);
@@ -368,10 +355,15 @@
     }
     
     .pcard-desc {
-      font-size: 0.86rem;
-      line-height: 1.7;
+      font-size: 0.82rem;
+      line-height: 1.65;
       color: var(--text-muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     
     .pcard-tags {
@@ -420,33 +412,67 @@
     .pcard-link:hover { gap: 13px; color: var(--accent); }
 
     /* =============================================
-       5. BLOGS
+       5. BLOGS — Horizontal rectangle cards
     ============================================= */
     #blogs{padding:var(--pad) 0;background:var(--bg-alt);position:relative;overflow:hidden; border-top: 1px dashed var(--border);}
     .blogs-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:52px;flex-wrap:wrap;gap:24px;position:relative;z-index:2}
     .blogs-heading{font-family:var(--font-d);font-size:clamp(48px,6vw,88px);letter-spacing:.05em;line-height:.9;color:var(--text)}
-    .blogs-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative;z-index:2}
-    
-    .bcard{background:var(--card-bg);border:1px solid var(--border);padding:clamp(28px,3vw,44px);display:flex;flex-direction:column;position:relative;z-index:1;overflow:hidden;transition:all .3s;text-decoration:none;color:inherit}
-    .bcard::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:3px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
-    
-    .bcard:hover { box-shadow:var(--shadow); border-color: var(--cyan); }
-    .bcard:hover::before{transform:scaleX(1);}
-    
-    .blog-topic{font-family:var(--font-m);display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);margin-bottom:14px;padding:4px 10px;background:var(--cyan);width:fit-content}
-    .blog-title{font-family:var(--font-s);font-size:clamp(21px,2.2vw,29px);line-height:1.25;color:var(--text);margin-bottom:14px}
-    .blog-desc{font-size:.86rem;line-height:1.7;color:var(--text-muted);margin-bottom:28px;flex:1}
-    .blog-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px; border-top: 1px dashed var(--border); padding-top: 16px;}
-    .blog-tags{display:flex;gap:8px;flex-wrap:wrap}
-    .blog-link{font-family:var(--font-m);display:inline-flex;align-items:center;gap:7px;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);transition:gap .3s}
-    .bcard:hover .blog-link{gap:11px; color:var(--accent);}
 
-    /* GLITCH EFFECT (BLOGS ONLY) */
-    .bcard::after {
-      content: ''; position: absolute; inset: 0; background: inherit; z-index: -1; pointer-events: none; opacity: 0;
+    /* Single column — full-width horizontal cards */
+    .blogs-grid{display:grid;grid-template-columns:1fr;gap:12px;position:relative;z-index:2}
+
+    /* Card: flex row — content left, link right */
+    .bcard{
+      background:var(--card-bg);
+      border:1px solid var(--border);
+      border-radius:32px;
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+      gap:0;
+      position:relative;
+      overflow:hidden;
+      transition:all .3s;
+      text-decoration:none;
+      color:inherit;
+      padding:clamp(20px,2.5vw,28px) clamp(24px,3vw,36px);
     }
-    .bcard:hover::after {
-      opacity: 1; animation: glitch 0.25s cubic-bezier(.25, .46, .45, .94) both;
+    .bcard::before{content:'';position:absolute;left:0;top:0;width:4px;height:100%;background:var(--cyan);transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease)}
+    .bcard:hover{box-shadow:var(--shadow);border-color:var(--cyan);}
+    .bcard:hover::before{transform:scaleY(1);}
+
+    /* Main content: topic + title + desc + tags */
+    .bcard-content{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    /* Right: read link only */
+    .bcard-action{
+      flex-shrink:0;
+      padding-left:clamp(20px,3vw,44px);
+      display:flex;
+      align-items:center;
+    }
+
+    .blog-topic{font-family:var(--font-m);display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);padding:4px 10px;background:var(--cyan);width:fit-content;border-radius:4px}
+    .blog-title{font-family:var(--font-s);font-size:clamp(17px,1.8vw,22px);line-height:1.3;color:var(--text);margin:0}
+    .blog-desc{font-size:.82rem;line-height:1.65;color:var(--text-muted);margin:0}
+    .blog-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+    .blog-link{font-family:var(--font-m);display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);transition:gap .3s;white-space:nowrap}
+    .bcard:hover .blog-link{gap:12px;color:var(--accent);}
+
+    /* GLITCH EFFECT */
+    .bcard::after{content:'';position:absolute;inset:0;background:inherit;z-index:-1;pointer-events:none;opacity:0}
+    .bcard:hover::after{opacity:1;animation:glitch 0.25s cubic-bezier(.25,.46,.45,.94) both}
+
+    /* Mobile: stack content, link moves below */
+    @media(max-width:640px){
+      .bcard{flex-direction:column;align-items:flex-start}
+      .bcard-action{padding-left:0;padding-top:12px;border-top:1px solid var(--border);width:100%;justify-content:flex-end}
     }
 
     /* =============================================
@@ -499,7 +525,6 @@
     /* =============================================
        RESPONSIVE
     ============================================= */
-    @media(max-width:1000px){ .blogs-grid{grid-template-columns:1fr} }
     @media(max-width:900px){ .about-grid{grid-template-columns:1fr} .exp-grid{grid-template-columns:1fr} }
     @media(max-width:768px){
       :root{--pad:clamp(56px,8vw,96px)}
@@ -526,7 +551,7 @@
 <body>
 
 <!-- GLOBAL SCANLINE -->
-<div class="scanline"></div>
+
 
 <!-- PAGE LOADER -->
 <div class="page-loader" id="loader">
@@ -586,7 +611,7 @@
         </div>
 
         <p class="hero-tagline reveal d3">
-          Results-driven professional with 3+ years in software engineering, making a deliberate move into Data Analytics and AI Operations with the technical skills and practical experience to hit the ground running.
+          3+ years managing cross-functional delivery and QA in tech — now building AI-powered analytics systems, autonomous agents, and business intelligence tools. Bridging operational depth with modern data and AI capabilities.
         </p>
 
         <div class="hero-cta reveal d4">
@@ -611,7 +636,7 @@
         <div class="about-text">
           <div class="slabel reveal">SYS_INFO</div>
           <div class="about-badge reveal d1">CURRENTLY OPEN TO: FULL-TIME & INTERNSHIP ROLES</div>
-          <h2 class="about-heading reveal d2">Where <em>engineering</em><br>meets analytics.</h2>
+          <h2 class="about-heading reveal d2">Where <em>operations</em><br>meets AI &amp; analytics.</h2>
           <div class="about-body">
             <p class="reveal d3">I have over <strong>3 years of experience</strong> working in software operations, QA, and cross-functional delivery, coordinating teams, managing releases, and ensuring high-quality product delivery across concurrent digital learning products.</p>
             <p class="reveal d4">Today, I'm transitioning into <strong>Business Analytics and AI</strong>, building practical projects using Python, SQL, Power BI, Tableau, FastAPI, and Generative AI. I'm particularly interested in solving operational and business challenges through analytics, automation, and AI-driven systems.</p>
@@ -623,15 +648,15 @@
           <div class="about-stats reveal d5" id="stats-container">
             <div class="stat-item">
               <div class="stat-num"><span class="counter" data-target="3">0</span><span>+</span></div>
-              <div class="stat-label">Years SE Exp</div>
+              <div class="stat-label">Years Industry Exp</div>
             </div>
             <div class="stat-item">
-              <div class="stat-num"><span class="counter" data-target="1.5">0</span></div>
-              <div class="stat-label">Yrs Analytics</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-num"><span class="counter" data-target="6">0</span><span>+</span></div>
+              <div class="stat-num"><span class="counter" data-target="7">0</span><span>+</span></div>
               <div class="stat-label">Projects Built</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num"><span class="counter" data-target="1.5">0</span><span>+</span></div>
+              <div class="stat-label">Yrs Analytics</div>
             </div>
           </div>
           
@@ -697,7 +722,7 @@
         <div class="cert-heading">VERIFIED_CREDENTIALS</div>
         <div class="cert-list">
           <a href="https://www.hackerrank.com/certificates/f5c45f717ce7" class="cert-badge" target="_blank">HackerRank SQL</a>
-          <a href="https://drive.google.com/file/d/1xVe3IvmaIyfbbHhKnRsUErHqNvbflHII/view?usp=sharing" class="cert-badge" target="_blank" rel="noopener" class="cert-badge" target="_blank">Databricks Fundamental</a>
+          <a href="https://drive.google.com/file/d/1xVe3IvmaIyfbbHhKnRsUErHqNvbflHII/view?usp=sharing" class="cert-badge" target="_blank" rel="noopener">Databricks Fundamental</a>
           <a href="https://www.datacamp.com/completed/statement-of-accomplishment/track/d208bf55b7fb521ad2334f64605ba258b72e172c" class="cert-badge" target="_blank">Alteryx Designer Core</a>
           <a href="https://www.theforage.com/completion-certificates/9PBTqmSxAf6zZTseP/io9DzWKe3PTsiS6GG_9PBTqmSxAf6zZTseP_Q2oouNQqngmoDAdYP_1751281630969_completion_certificate.pdf" class="cert-badge" target="_blank">Deloitte - Data Analytics</a>
           <a href="https://www.theforage.com/completion-certificates/ifobHAoMjQs9s6bKS/MyXvBcppsW2FkNYCX_ifobHAoMjQs9s6bKS_Q2oouNQqngmoDAdYP_1752152425931_completion_certificate.pdf" class="cert-badge" target="_blank">TATA — Data Visualization</a>
@@ -728,7 +753,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_01</div>
           <h3 class="pcard-title">Stadium Ops Loop — Autonomous Agent</h3>
-          <p class="pcard-desc">Built an autonomous multi-stage GenAI agent using Gemini API that monitors stadium operations and generates real-time operational recommendations.</p>
+          <p class="pcard-desc">No system was turning live stadium signals into decisions. Built a multi-stage GenAI agent using the Gemini API with memory, reasoning, and verification loops that surfaces prioritised operational recommendations before a human needs to step in.</p>
           <div class="pcard-tags"><span class="tag">AI Agents</span><span class="tag">Gemini</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/stadium_ops_loop" class="pcard-link" target="_blank">View Code -></a>
@@ -738,7 +763,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_02</div>
           <h3 class="pcard-title">SupportDesk — Management System</h3>
-          <p class="pcard-desc">Designed a full-stack ticket system, architecting a normalized PostgreSQL schema and REST API endpoints via FastAPI with Pydantic validation.</p>
+          <p class="pcard-desc">Support teams lose resolution time when tickets have no structure or routing logic. Built this end-to-end with PostgreSQL, FastAPI REST endpoints, and a React dashboard with live search and escalation, then deployed and debugged it in production on Railway.</p>
           <div class="pcard-tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/support_system" class="pcard-link" target="_blank">View Code -></a>
@@ -748,7 +773,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_03</div>
           <h3 class="pcard-title">Adventure Works Retail Analytics</h3>
-          <p class="pcard-desc">End-to-end retail sales analytics covering the full data pipeline — from raw CSV data to a PostgreSQL star schema and Tableau dashboards.</p>
+          <p class="pcard-desc">Raw sales data doesn't tell you which customers or products are actually worth investing in. Built a PostgreSQL star schema with SQL-driven segmentation and product affinity analysis, then surfaced the revenue concentration and margin risk findings in Tableau.</p>
           <div class="pcard-tags"><span class="tag">PostgreSQL</span><span class="tag">Tableau</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/retail-sales-analytics" class="pcard-link" target="_blank">View Code -></a>
@@ -757,7 +782,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_04</div>
           <h3 class="pcard-title">Real-Time Weather Dashboard</h3>
-          <p class="pcard-desc">Dynamic Power BI dashboard which fetches and visualizes weather data through an external Weather API across multiple major cities in India.</p>
+          <p class="pcard-desc">Static weather reports don't support real-time operational decisions. Connected Power BI directly to a live Weather API using Power Query to build a self-refreshing dashboard across Indian cities with no manual updates needed.</p>
           <div class="pcard-tags"><span class="tag">Power BI</span><span class="tag">API</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/Real-Time-Weather-Dashboard" class="pcard-link" target="_blank">View Code -></a>
@@ -766,16 +791,16 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_05</div>
           <h3 class="pcard-title">Superstore Sales Analysis</h3>
-          <p class="pcard-desc">Analyzes sales performance using the Superstore dataset to identify key trends, profitable segments, and regional performance via Tableau.</p>
+          <p class="pcard-desc">Aggregate revenue numbers hide where margin is quietly eroding. EDA revealed that high-discount sub-categories were growing revenue but destroying profit, shifting the real question from where we are selling to where we should stop competing on price.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Tableau</span></div>
           <div class="pcard-links">
-            <a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank">View Code -></a>
+            <a href="https://github.com/Sank02/Superstore-Sales" class="pcard-link" target="_blank">View Code -></a>
           </div>
         </div>
         <div class="pcard">
           <div class="pcard-num">PRJ_06</div>
           <h3 class="pcard-title">Customer Churn Analysis</h3>
-          <p class="pcard-desc">A detailed Exploratory Data Analysis (EDA) and an interactive Power BI dashboard to understand customer churn in a telecom company.</p>
+          <p class="pcard-desc">Telecom customers leave before the business figures out why. EDA identified month-to-month customers without tech support as the highest-churn group and translated that pattern into a retention strategy a CRM team could act on.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Power BI</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank">View Code -></a>
@@ -783,19 +808,19 @@
         </div>
         <div class="pcard">
           <div class="pcard-num">PRJ_07</div>
-          <h3 class="pcard-title">Amazon Fine Food Reviews - Sentiment Analysis</h3>
-          <p class="pcard-desc">Sentiment analysis of 568K+ Amazon Fine Food reviews to classify customer feedback as positive or negative.</p>
+          <h3 class="pcard-title">Amazon Fine Food Reviews — Sentiment Analysis</h3>
+          <p class="pcard-desc">Star ratings are a noisy signal that often hide what customers actually wrote. NLP and t-SNE clustering across 568K reviews showed a consistent gap between written sentiment and star scores, surfacing products that were routinely over or under-rated.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">TSNE Visuals</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/data-science/blob/main/Data%20Analysis/Amazon%20Fine%20Food%20Reviews%20-%20Sentiment%20Analysis%20-%20TSNE%20Visualization.ipynb" class="pcard-link" target="_blank">View Code -></a>
           </div>
         </div>
         
-        <!-- =================== SET 2 (DUPLICATE FOR LOOP) =================== -->
+        <!-- =================== SET 2 (DUPLICATE FOR SEAMLESS LOOP) =================== -->
         <div class="pcard">
           <div class="pcard-num">PRJ_01</div>
           <h3 class="pcard-title">Stadium Ops Loop — Autonomous Agent</h3>
-          <p class="pcard-desc">Built an autonomous multi-stage GenAI agent using Gemini API that monitors stadium operations and generates real-time operational recommendations.</p>
+          <p class="pcard-desc">No system was turning live stadium signals into decisions. Built a multi-stage GenAI agent using the Gemini API with memory, reasoning, and verification loops that surfaces prioritised operational recommendations before a human needs to step in.</p>
           <div class="pcard-tags"><span class="tag">AI Agents</span><span class="tag">Gemini</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/stadium_ops_loop" class="pcard-link" target="_blank">View Code -></a>
@@ -805,7 +830,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_02</div>
           <h3 class="pcard-title">SupportDesk — Management System</h3>
-          <p class="pcard-desc">Designed a full-stack ticket system, architecting a normalized PostgreSQL schema and REST API endpoints via FastAPI with Pydantic validation.</p>
+          <p class="pcard-desc">Support teams lose resolution time when tickets have no structure or routing logic. Built this end-to-end with PostgreSQL, FastAPI REST endpoints, and a React dashboard with live search and escalation, then deployed and debugged it in production on Railway.</p>
           <div class="pcard-tags"><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/support_system" class="pcard-link" target="_blank">View Code -></a>
@@ -815,7 +840,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_03</div>
           <h3 class="pcard-title">Adventure Works Retail Analytics</h3>
-          <p class="pcard-desc">End-to-end retail sales analytics covering the full data pipeline — from raw CSV data to a PostgreSQL star schema and Tableau dashboards.</p>
+          <p class="pcard-desc">Raw sales data doesn't tell you which customers or products are actually worth investing in. Built a PostgreSQL star schema with SQL-driven segmentation and product affinity analysis, then surfaced the revenue concentration and margin risk findings in Tableau.</p>
           <div class="pcard-tags"><span class="tag">PostgreSQL</span><span class="tag">Tableau</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/retail-sales-analytics" class="pcard-link" target="_blank">View Code -></a>
@@ -824,7 +849,7 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_04</div>
           <h3 class="pcard-title">Real-Time Weather Dashboard</h3>
-          <p class="pcard-desc">Dynamic Power BI dashboard which fetches and visualizes weather data through an external Weather API across multiple major cities in India.</p>
+          <p class="pcard-desc">Static weather reports don't support real-time operational decisions. Connected Power BI directly to a live Weather API using Power Query to build a self-refreshing dashboard across Indian cities with no manual updates needed.</p>
           <div class="pcard-tags"><span class="tag">Power BI</span><span class="tag">API</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/Real-Time-Weather-Dashboard" class="pcard-link" target="_blank">View Code -></a>
@@ -833,16 +858,16 @@
         <div class="pcard">
           <div class="pcard-num">PRJ_05</div>
           <h3 class="pcard-title">Superstore Sales Analysis</h3>
-          <p class="pcard-desc">Analyzes sales performance using the Superstore dataset to identify key trends, profitable segments, and regional performance via Tableau.</p>
+          <p class="pcard-desc">Aggregate revenue numbers hide where margin is quietly eroding. EDA revealed that high-discount sub-categories were growing revenue but destroying profit, shifting the real question from where we are selling to where we should stop competing on price.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Tableau</span></div>
           <div class="pcard-links">
-            <a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank">View Code -></a>
+            <a href="https://github.com/Sank02/Superstore-Sales" class="pcard-link" target="_blank">View Code -></a>
           </div>
         </div>
         <div class="pcard">
           <div class="pcard-num">PRJ_06</div>
           <h3 class="pcard-title">Customer Churn Analysis</h3>
-          <p class="pcard-desc">A detailed Exploratory Data Analysis (EDA) and an interactive Power BI dashboard to understand customer churn in a telecom company.</p>
+          <p class="pcard-desc">Telecom customers leave before the business figures out why. EDA identified month-to-month customers without tech support as the highest-churn group and translated that pattern into a retention strategy a CRM team could act on.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Power BI</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/Customer-Churn-Analysis" class="pcard-link" target="_blank">View Code -></a>
@@ -850,14 +875,13 @@
         </div>
         <div class="pcard">
           <div class="pcard-num">PRJ_07</div>
-          <h3 class="pcard-title">Amazon Fine Food Reviews - Sentiment Analysis</h3>
-          <p class="pcard-desc">Sentiment analysis of 568K+ Amazon Fine Food reviews to classify customer feedback as positive or negative.</p>
+          <h3 class="pcard-title">Amazon Fine Food Reviews — Sentiment Analysis</h3>
+          <p class="pcard-desc">Star ratings are a noisy signal that often hide what customers actually wrote. NLP and t-SNE clustering across 568K reviews showed a consistent gap between written sentiment and star scores, surfacing products that were routinely over or under-rated.</p>
           <div class="pcard-tags"><span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">TSNE Visuals</span></div>
           <div class="pcard-links">
             <a href="https://github.com/Sank02/data-science/blob/main/Data%20Analysis/Amazon%20Fine%20Food%20Reviews%20-%20Sentiment%20Analysis%20-%20TSNE%20Visualization.ipynb" class="pcard-link" target="_blank">View Code -></a>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -877,55 +901,65 @@
         
         <!-- Blog 1 -->
         <a href="https://sanketbhosale.hashnode.dev/the-stadium-ops-loop-an-autonomous-genai-agent" class="bcard reveal" target="_blank" rel="noopener">
-          <div class="blog-topic">GenAI / Agents</div>
-          <h3 class="blog-title">The Stadium Ops Loop: An Autonomous GenAI Agent</h3>
-          <p class="blog-desc">A deep dive into building an autonomous multi-stage GenAI agent using the Gemini API to monitor operations and generate real-time recommendations.</p>
-          <div class="blog-meta">
+          <div class="bcard-content">
+            <div class="blog-topic">GenAI / Agents</div>
+            <h3 class="blog-title">The Stadium Ops Loop: An Autonomous GenAI Agent</h3>
+            <p class="blog-desc">A deep dive into building an autonomous multi-stage GenAI agent using the Gemini API to monitor operations and generate real-time recommendations.</p>
             <div class="blog-tags"><span class="tag">GenAI</span><span class="tag">Gemini</span></div>
+          </div>
+          <div class="bcard-action">
             <span class="blog-link">READ_FILE -></span>
           </div>
         </a>
 
         <!-- Blog 2 -->
-        <a href="https://indigo-ghoul-65e.notion.site/The-Game-of-Chance-A-Blog-Post-on-Probability-and-Statistics-1416b955d9698049bf5aef2b6f6d8e1d" class="bcard reveal d1" target="_blank" rel="noopener">
-          <div class="blog-topic">Data Science</div>
-          <h3 class="blog-title">The Game of Chance: Probability and Statistics</h3>
-          <p class="blog-desc">Deep dive into probability, distributions, and the math concepts that form the foundation of Machine Learning and Data Science.</p>
-          <div class="blog-meta">
+        <a href="https://indigo-ghoul-65e.notion.site/The-Game-of-Chance-A-Blog-Post-on-Probability-and-Statistics-1416b955d9698049bf5aef2b6f6d8e1d" class="bcard reveal" target="_blank" rel="noopener">
+          <div class="bcard-content">
+            <div class="blog-topic">Data Science</div>
+            <h3 class="blog-title">The Game of Chance: Probability and Statistics</h3>
+            <p class="blog-desc">Deep dive into probability, distributions, and the math concepts that form the foundation of Machine Learning and Data Science.</p>
             <div class="blog-tags"><span class="tag">Math</span><span class="tag">Probability</span></div>
+          </div>
+          <div class="bcard-action">
             <span class="blog-link">READ_FILE -></span>
           </div>
         </a>
 
         <!-- Blog 3 -->
         <a href="https://indigo-ghoul-65e.notion.site/Statistics-0db35868e41d4f76a6d20987b852af31" class="bcard reveal" target="_blank" rel="noopener">
-          <div class="blog-topic">Data Science</div>
-          <h3 class="blog-title">Statistics for Data Science</h3>
-          <p class="blog-desc">Understanding various distributions, core statistical methods, and how they apply in modern ML workflows.</p>
-          <div class="blog-meta">
+          <div class="bcard-content">
+            <div class="blog-topic">Data Science</div>
+            <h3 class="blog-title">Statistics for Data Science</h3>
+            <p class="blog-desc">Understanding various distributions, core statistical methods, and how they apply in modern ML workflows.</p>
             <div class="blog-tags"><span class="tag">Statistics</span></div>
+          </div>
+          <div class="bcard-action">
             <span class="blog-link">READ_FILE -></span>
           </div>
         </a>
 
         <!-- Blog 4 -->
-        <a href="https://indigo-ghoul-65e.notion.site/OpenCV-Raspberry-Pi-1416b955d96980c0831ac3ce78f60cc9" class="bcard reveal d1" target="_blank" rel="noopener">
-          <div class="blog-topic">Computer Vision</div>
-          <h3 class="blog-title">OpenCV on Raspberry Pi</h3>
-          <p class="blog-desc">A beginner-friendly technical guide to installing OpenCV onto the Raspberry Pi using CMake for edge computing.</p>
-          <div class="blog-meta">
+        <a href="https://indigo-ghoul-65e.notion.site/OpenCV-Raspberry-Pi-1416b955d96980c0831ac3ce78f60cc9" class="bcard reveal" target="_blank" rel="noopener">
+          <div class="bcard-content">
+            <div class="blog-topic">Computer Vision</div>
+            <h3 class="blog-title">OpenCV on Raspberry Pi</h3>
+            <p class="blog-desc">A beginner-friendly technical guide to installing OpenCV onto the Raspberry Pi using CMake for edge computing.</p>
             <div class="blog-tags"><span class="tag">OpenCV</span><span class="tag">Python</span></div>
+          </div>
+          <div class="bcard-action">
             <span class="blog-link">READ_FILE -></span>
           </div>
         </a>
 
-        <!-- Blog 5 -->
-        <a href="https://www.irjet.net/archives/V7/i2/IRJET-V7I2399.pdf" class="bcard reveal d1" target="_blank" rel="noopener">
-          <div class="blog-topic">Research Paper · IRJET Vol.7</div>
-          <h3 class="blog-title">Smart Traffic Control Based on Image Artificial Intelligence</h3>
-          <p class="blog-desc">Published research on a real-time traffic management system using AI-based object detection to optimize traffic flow through dynamic vehicle density analysis.</p>
-          <div class="blog-meta">
+        <!-- Blog 5 — Research Paper -->
+        <a href="https://www.irjet.net/archives/V7/i2/IRJET-V7I2399.pdf" class="bcard reveal" target="_blank" rel="noopener">
+          <div class="bcard-content">
+            <div class="blog-topic">Research Paper · IRJET Vol.7</div>
+            <h3 class="blog-title">Smart Traffic Control Based on Image Artificial Intelligence</h3>
+            <p class="blog-desc">Published research on a real-time traffic management system using AI-based object detection to optimize traffic flow through dynamic vehicle density analysis.</p>
             <div class="blog-tags"><span class="tag">Computer Vision</span><span class="tag">Object Detection</span><span class="tag">AI</span><span class="tag">Hardware</span></div>
+          </div>
+          <div class="bcard-action">
             <span class="blog-link">Read Paper -></span>
           </div>
         </a>
